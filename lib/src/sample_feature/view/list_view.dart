@@ -1,7 +1,7 @@
 import 'package:challenge/src/constants.dart';
-import 'package:challenge/src/sample_feature/data/sample_item.dart';
-import 'package:challenge/src/sample_feature/data/sample_item_list.dart';
-import 'package:challenge/src/sample_feature/view/sample_item_details_view.dart';
+import 'package:challenge/src/sample_feature/data/item_model.dart';
+import 'package:challenge/src/sample_feature/data/list_model.dart';
+import 'package:challenge/src/sample_feature/view/details_view.dart';
 import 'package:flutter/material.dart';
 
 /// Displays a list of [SampleItem]s.
@@ -10,10 +10,10 @@ class SampleItemListView extends StatefulWidget {
   const SampleItemListView({required this.source, super.key});
 
   /// The source to load the data.
-  final SampleListSource source;
+  final SampleListSource source; //This is an emum type used in the switch below
 
   /// Route name.
-  static const routeName = '/';
+  static const routeName = '/'; // How does is this routeName used?
 
   @override
   State<SampleItemListView> createState() => _SampleItemListViewState();
@@ -33,12 +33,16 @@ class _SampleItemListViewState extends State<SampleItemListView> {
         items.addAll(longSampleList);
         break;
       case SampleListSource.network:
-        loadNetworkSampleList(kDynamicListSize).then(items.addAll);
+        print('getting list from network');
+        loadNetworkSampleList(kDynamicListSize).then(
+          items.addAll,
+        );
+        print('List: $items'); // List is empty 
+        // there is no await / async here and no anonymomous function as argument and no argument in the addAll method
         break;
       case SampleListSource.stream:
-        streamSampleList(kDynamicListSize)
-            .listen(items.add)
-            .onDone(() => setState(() {}));
+        streamSampleList(kDynamicListSize).listen(items.add).onDone(() => setState(
+            () {})); // How does this statement work? Is the .onDone() method needed here?
         break;
     }
   }

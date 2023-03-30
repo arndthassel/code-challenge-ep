@@ -1,5 +1,5 @@
 import 'package:challenge/src/constants.dart';
-import 'package:challenge/src/sample_feature/data/sample_item.dart';
+import 'package:challenge/src/sample_feature/data/item_model.dart';
 
 /// Alias to represent a [List] of [SampleItem].
 typedef SampleItemList = List<SampleItem>;

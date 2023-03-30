@@ -1,4 +1,4 @@
-import 'package:challenge/src/sample_feature/data/sample_item.dart';
+import 'package:challenge/src/sample_feature/data/item_model.dart';
 import 'package:flutter/material.dart';
 
 /// Displays detailed information about a SampleItem.

@@ -1,7 +1,7 @@
-import 'package:challenge/src/sample_feature/data/sample_item.dart';
-import 'package:challenge/src/sample_feature/data/sample_item_list.dart';
-import 'package:challenge/src/sample_feature/view/sample_item_details_view.dart';
-import 'package:challenge/src/sample_feature/view/sample_item_list_view.dart';
+import 'package:challenge/src/sample_feature/data/item_model.dart';
+import 'package:challenge/src/sample_feature/data/list_model.dart';
+import 'package:challenge/src/sample_feature/view/details_view.dart';
+import 'package:challenge/src/sample_feature/view/list_view.dart';
 import 'package:flutter/material.dart';
 
 /// The Widget that configures your application.
@@ -25,7 +25,9 @@ class ChallengeApp extends StatelessWidget {
                 );
               case SampleItemListView.routeName:
               default:
-                return const SampleItemListView(source: SampleListSource.small);
+                return const SampleItemListView(
+                  source: SampleListSource.network, // DEFAULT VALUE FOR LIST
+                );
             }
           },
         );

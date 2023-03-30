@@ -33,7 +33,6 @@ class _SampleItemListViewState extends State<SampleItemListView> {
         items.addAll(longSampleList);
         break;
       case SampleListSource.network:
-        print('getting list from network');
         loadNetworkSampleList(kDynamicListSize).then(
           (value) {
             setState(() => items.addAll(value)); // ADDED SETSTATE HERE
@@ -43,13 +42,11 @@ class _SampleItemListViewState extends State<SampleItemListView> {
       case SampleListSource.stream:
         streamSampleList(kDynamicListSize).listen(
           (value) {
-            print('adding item to list: $value');
             setState(() => items.add(value)); // ADDED SETSTATE HERE
           },
         ); // REMOVED ONDONE AND SETSTATE HERE
         break;
     }
-    print('List after initState: $items');
   }
 
   @override
@@ -58,8 +55,26 @@ class _SampleItemListViewState extends State<SampleItemListView> {
       appBar: AppBar(title: const Text('Sample Items')),
       body: items.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              children: items.map(
+          : ListView.builder(
+              // CHANGED TO BUILDER
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = items[index];
+                return ListTile(
+                  key: ValueKey(item),
+                  title: Text(item.text),
+                  leading: const CircleAvatar(child: FlutterLogo()),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      SampleItemDetailsView.routeName,
+                      arguments: item,
+                    );
+                  },
+                );
+              },
+              // PRE-CHANGE TO BUILDER
+              /* children: items.map(
                 (SampleItem item) {
                   return ListTile(
                     key: ValueKey(item),
@@ -74,7 +89,7 @@ class _SampleItemListViewState extends State<SampleItemListView> {
                     },
                   );
                 },
-              ).toList(),
+              ).toList(), */
             ),
     );
   }

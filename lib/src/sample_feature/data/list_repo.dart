@@ -23,7 +23,8 @@ Future<SampleItemList> loadNetworkSampleList(int size) async {
   final list = <SampleItem>[];
   for (var i = 0; i < size; i++) {
     // size is 10 (kDynamicListSize)
-    list.add(await loadNetworkSampleItem(i));
+    list.add(await instantLoadNetworkSampleItem(
+        i)); // CHANGED TO INSTANT LOAD METHOD
   }
   return list;
 }
@@ -39,6 +40,14 @@ Stream<SampleItem> streamSampleList(int size) async* {
 Future<SampleItem> loadNetworkSampleItem(int id) async {
   return Future<SampleItem>.delayed(
     const Duration(seconds: kFetchSeconds), // 1 second
+    () => SampleItem(id),
+  );
+}
+
+// ADDED INSTANT LOAD METHOD
+Future<SampleItem> instantLoadNetworkSampleItem(int id) async {
+  return Future<SampleItem>.delayed(
+    Duration.zero, // 1 second
     () => SampleItem(id),
   );
 }

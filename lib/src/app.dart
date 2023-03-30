@@ -26,7 +26,8 @@ class ChallengeApp extends StatelessWidget {
               case SampleItemListView.routeName:
               default:
                 return const SampleItemListView(
-                  source: SampleListSource.long, // DEFAULT VALUE FOR LIST
+                  source: SampleListSource
+                      .network, // CHANGE DEFAULT VALUE FOR LIST HERE
                 );
             }
           },

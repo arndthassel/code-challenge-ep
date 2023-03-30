@@ -35,16 +35,17 @@ class _SampleItemListViewState extends State<SampleItemListView> {
       case SampleListSource.network:
         print('getting list from network');
         loadNetworkSampleList(kDynamicListSize).then(
-          items.addAll,
+          (value) {
+            setState(() => items.addAll(value)); // ADDED SETSTATE HERE
+          },
         );
-        print('List: $items'); // List is empty 
-        // there is no await / async here and no anonymomous function as argument and no argument in the addAll method
         break;
       case SampleListSource.stream:
         streamSampleList(kDynamicListSize).listen(items.add).onDone(() => setState(
             () {})); // How does this statement work? Is the .onDone() method needed here?
         break;
     }
+    print('List after initState: $items');
   }
 
   @override

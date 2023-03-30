@@ -1,6 +1,6 @@
 import 'package:challenge/src/constants.dart';
 import 'package:challenge/src/sample_feature/data/item_model.dart';
-import 'package:challenge/src/sample_feature/data/list_model.dart';
+import 'package:challenge/src/sample_feature/data/list_repo.dart';
 import 'package:challenge/src/sample_feature/view/details_view.dart';
 import 'package:flutter/material.dart';
 
@@ -41,8 +41,12 @@ class _SampleItemListViewState extends State<SampleItemListView> {
         );
         break;
       case SampleListSource.stream:
-        streamSampleList(kDynamicListSize).listen(items.add).onDone(() => setState(
-            () {})); // How does this statement work? Is the .onDone() method needed here?
+        streamSampleList(kDynamicListSize).listen(
+          (value) {
+            print('adding item to list: $value');
+            setState(() => items.add(value)); // ADDED SETSTATE HERE
+          },
+        ); // REMOVED ONDONE AND SETSTATE HERE
         break;
     }
     print('List after initState: $items');

@@ -1,5 +1,5 @@
 import 'package:challenge/src/sample_feature/data/item_model.dart';
-import 'package:challenge/src/sample_feature/data/list_model.dart';
+import 'package:challenge/src/sample_feature/data/list_repo.dart';
 import 'package:challenge/src/sample_feature/view/details_view.dart';
 import 'package:challenge/src/sample_feature/view/list_view.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class ChallengeApp extends StatelessWidget {
               case SampleItemListView.routeName:
               default:
                 return const SampleItemListView(
-                  source: SampleListSource.network, // DEFAULT VALUE FOR LIST
+                  source: SampleListSource.long, // DEFAULT VALUE FOR LIST
                 );
             }
           },

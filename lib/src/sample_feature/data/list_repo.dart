@@ -24,7 +24,6 @@ Future<SampleItemList> loadNetworkSampleList(int size) async {
   for (var i = 0; i < size; i++) {
     // size is 10 (kDynamicListSize)
     list.add(await loadNetworkSampleItem(i));
-    print('List in for-Loop: $list');
   }
   return list;
 }

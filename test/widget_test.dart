@@ -1,5 +1,5 @@
 import 'package:challenge/src/constants.dart';
-import 'package:challenge/src/sample_feature/data/list_model.dart';
+import 'package:challenge/src/sample_feature/data/list_repo.dart';
 import 'package:challenge/src/sample_feature/view/list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

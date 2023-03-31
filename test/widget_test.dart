@@ -5,50 +5,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('SampleItemListView', () {
-    testWidgets('load small list', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: SampleItemListView(
-            source: SampleListSource.small,
+  group(
+    'SampleItemListView',
+    () {
+      testWidgets('load small list', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: SampleItemListView(
+              source: SampleListSource.small,
+            ),
           ),
-        ),
+        );
+
+        expect(find.byType(ListTile), findsNWidgets(kSmallListSize));
+      });
+
+      testWidgets(
+        'load network list',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            const MaterialApp(
+              home: SampleItemListView(
+                source: SampleListSource.network,
+              ),
+            ),
+          );
+
+          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(CircularProgressIndicator), findsNothing);
+          expect(find.byType(ListTile), findsNWidgets(kDynamicListSize));
+        },
       );
 
-      expect(find.byType(ListTile), findsNWidgets(kSmallListSize));
-    });
+      testWidgets(
+        'load stream list',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(const MaterialApp(
+            home: SampleItemListView(
+              source: SampleListSource.stream,
+            ),
+          ));
 
-    testWidgets('load network list', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: SampleItemListView(
-            source: SampleListSource.network,
-          ),
-        ),
+          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+          // Added for loop with delayed pumps to test for each streamed item
+          for (var i = 0; i < kDynamicListSize; i++) {
+            await tester.pump(const Duration(seconds: 1));
+            expect(find.byType(ListTile), findsNWidgets(i + 1));
+          }
+        },
       );
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.byType(ListTile), findsNWidgets(kDynamicListSize));
-    });
-
-    testWidgets('load stream list', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: SampleItemListView(
-            source: SampleListSource.stream,
-          ),
-        ),
-      );
-
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.byType(ListTile), findsNWidgets(kDynamicListSize));
-    });
-  });
+    },
+  );
 }

@@ -51,7 +51,7 @@ void main() {
 
           expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-          // Added for loop with delayed pumps to test for each streamed item
+          // ADDED FOR-LOOP WITH DELAYED PUMPS TO TEST FOR EACH STREAMED ITEM
           for (var i = 0; i < kDynamicListSize; i++) {
             await tester.pump(const Duration(seconds: 1));
             expect(find.byType(ListTile), findsNWidgets(i + 1));

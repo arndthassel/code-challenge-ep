@@ -13,7 +13,8 @@ class SampleItemListView extends StatefulWidget {
   final SampleListSource source; //This is an emum type used in the switch below
 
   /// Route name.
-  static const routeName = '/'; // How does is this routeName used?
+  static const routeName =
+      '/'; // How does is this routeName used? --> non-private constant property used like a getter
 
   @override
   State<SampleItemListView> createState() => _SampleItemListViewState();

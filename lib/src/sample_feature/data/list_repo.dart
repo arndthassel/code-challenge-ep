@@ -20,23 +20,36 @@ final SampleItemList longSampleList =
 
 // FUTURE (LIST)
 Future<SampleItemList> loadNetworkSampleList(int size) async {
-  final list = <SampleItem>[];
+// OPTION 1: SUBSTITUTE LOADING METHOD FOR EACH SINGLE ITEM WITH NON-DELAYED METHOD
+/*   final list = <SampleItem>[];
   for (var i = 0; i < size; i++) {
     // size is 10 (kDynamicListSize)
     list.add(await instantLoadNetworkSampleItem(
         i)); // CHANGED TO INSTANT LOAD METHOD
   }
   return list;
+} */
+
+// OPTION 2: SUBSTITUTE WITH LIST.GENERATE (NOT ASYNC)
+/*   final list = SampleItemList.generate(kDynamicListSize, SampleItem.new);
+  return list; */
+
+// OPTION 3: FUTURE.WAIT
+  final intList = List<int>.generate(kDynamicListSize, (index) => index);
+  final futures = <Future<SampleItem>>[];
+  for (var index in intList) {
+    futures.add(loadNetworkSampleItem(index));
+  }
+  final list = Future.wait(futures);
+  return list;
 }
 
-// STREAM (ITEM)
 Stream<SampleItem> streamSampleList(int size) async* {
   for (var i = 0; i < size; i++) {
     yield await loadNetworkSampleItem(i);
   }
 }
 
-// HELPER FUNCTION
 Future<SampleItem> loadNetworkSampleItem(int id) async {
   return Future<SampleItem>.delayed(
     const Duration(seconds: kFetchSeconds), // 1 second
@@ -44,7 +57,7 @@ Future<SampleItem> loadNetworkSampleItem(int id) async {
   );
 }
 
-// ADDED INSTANT LOAD METHOD
+// NEW FOR OPTION 1: INSTANT LOAD METHOD FOR
 Future<SampleItem> instantLoadNetworkSampleItem(int id) async {
   return Future<SampleItem>.delayed(
     Duration.zero, // 1 second
